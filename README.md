@@ -68,14 +68,14 @@ export default Chai;
 > create chai.jsx file
 
 ** Rules : 
-> : in viteReact component has to be jsx, and its function has to start with capital letter.
+> : in viteReact  component has to be jsx, and its function has to start with capital letter.
  : in create-react-app components can be .js file but function has to be capital.
 
 ** Also in app.jsx : jsx file only allows to return one element i.e "<> </> "  return in div. same for App.js in create-react-app too. 
 
 
 
-// Why you need hooks and projects
+## Why you need hooks and projects
 
 * to update the UI or values of UI.
 
@@ -87,7 +87,8 @@ import "./App.css";
 // let countValue = 15;
 
 function App() {
-  let [variableName, method_maanging_the_variable] = useState(1);
+  let [variableName, method_maanging_the_variable] = useState(1); // useState() returns 2 values in array. Onr is variable affected and other is method updating the variable. 
+                                                                   // initial value in useStete can be anything. {} , [] , empty string. 
 
   const addValue = () => {
     // console.log("value Added ", Math.random()); // to check whethger the button is working and the function is running
@@ -97,7 +98,7 @@ function App() {
   };
 
   const removeValue = () => {
-    method_maanging_the_variable((variableName -= 1)); // here doing variableName-- will reduce the responsiveness.
+    method_maanging_the_variable((variableName -= 1)); // here doing "variableName--" will reduce the responsiveness.
   };
 
   return (
@@ -116,6 +117,67 @@ export default App;
 
 
 export default App;
+
+
+## VirtualDom, Fibre and Reconciliation
+
+* Read the article on react fibre : acdlite/react-fibre-architecture > link : https://github.com/acdlite/react-fiber-architecture
+
+ ->  React fibre is the algo that is now used to update the react-dom
+ ->  to increase its suitability for areas like animations , layouts,gestures etc.
+ -> instead of updating every request one by one , this updates final value only once.
+
+ => key Features :  the ability to pause, abort, or reuse work as new updates come in; the ability to assign priority to different types of updates; and new concurrency primitives.
+
+* reconciliation
+The algorithm React uses to diff one tree with another to determine which parts need to be changed.
+* update
+A change in the data used to render a React app. Usually the result of `setState`. Eventually results in a re-render.
+
+** Reconciliation is the algorithm behind what is popularly understood as the "virtual DOM." A high-level description goes something like this: when you render a React application, a tree of nodes that describes the app is generated and saved in memory. This tree is then flushed to the rendering environment — for example, in the case of a browser application, it's translated to a set of DOM operations. When the app is updated (usually via setState), a new tree is generated. The new tree is diffed with the previous tree to compute which operations are needed to update the rendered app.
+
+* Diffing of lists is performed using keys. Keys should be "stable, predictable, and unique." > jab bhi arrays,list se values lete hain to each part pe keys banate hain jisse efficiency badhti hai.
+
+*  primary goal of Fiber is to enable React to take advantage of scheduling. Specifically, we need to be able to
+
+-> pause work and come back to it later.
+-> assign priority to different types of work.
+-> reuse previously completed work.
+-> abort work if it's no longer needed.
+
+# Props in react.js
+used to share data between components. Each component has access to props.
+
+example : 
+
+* In Card.jsx : card component  > recieving the value
+
+
+function Card({ username }) {       // here in card function parametre we can use either direactly "{username}" a variable {destructuring is done here}, or " props" and in console.log("props ", props.username)
+  console.log("props ", username);
+  return (
+    <></>)}
+
+* In App.jsx :
+
+-> <card username = "BuildingWithReact" />  or
+ 
+function App() {
+  let objectA = {
+  name : "rahul",
+  pass : "abc"
+  }
+
+  return (
+
+  <card user = {objectA} />  // objects like arrays also can only be passed as variable i.e {inside this braces as object reference}.
+  )
+
+-> example for different prices :    
+    
+
+    
+
 
 
 
