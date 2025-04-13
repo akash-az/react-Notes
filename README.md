@@ -340,7 +340,17 @@ export default App;
 
 ```
 
+## React-router-dom
 
-    
+Link : is used inplace of <a> , bcus <a> refreshes the entire page and Link just updates the changed node. here inplace of href we write to="/"
+NavLink : is similar to Link but has some additional features.
 
+* In react router project when we tried to render components through App.jsx, we saw multiple errors.
+* to resolve this we are going to render <RouterProvider/> in main.jsx. But <RouterProvider/> takes prop i.e  <RouterProvider router = {router}/> 
+
+  //Method 1 : How to make Router
+  const router = createBrowserRouter([  {path:'/'}    ]) // it is a method which has an array inside it. this method is from react-roter
     
+   // Method 2 :
+  -> create a root.jsx or(Layout.jsx) file in src folder
+       
