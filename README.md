@@ -214,6 +214,132 @@ function App()
                  // aur nai changes ke saath nai output ko previos ke saath combine ya modify kr dena.
  example : const cacheFn = useCallback(fn,dependencies)
 
+ ** useEffect : lets us synchronize component with an external system.
+                example : in our password generator project we cant call passwordGenerator method directly.
+                there we had to use useEffect bcus we cannot decide when to render , react app decides that.
+ ** useRef : whenever we want to use a reference then we use "useRef" hook     
+
+## password generator application
+ ```react
+import { useCallback, useState, useEffect, useRef } from "react";
+
+function App() {
+  const [length, setLength] = useState(8);
+  const [hasChar, setHasChar] = useState(false);
+  const [hasNum, setHasNum] = useState(false);
+  const [password, setPassword] = useState();
+
+  const passwordGenerator = useCallback(() => {
+    let pass = "";
+    let str = "ABCDEFGHIJKLMNOPQRSTWXYZabcdefghijklmnopqrstwxyz";
+
+    if (hasNum) {
+      str += "0123456789";
+    }
+
+    if (hasChar) {
+      str += "~!@#$%^&*(){}[]|/<>";
+    }
+
+    for (let i = 1; i <= length; i++) {
+      let char = Math.floor(Math.random() * str.length + 1);
+
+      pass += str.charAt(char);
+    }
+
+    setPassword(pass);
+  }, [length, hasChar, hasNum, setPassword]); // here if we dont give setPassword code will run fine, but if we use password
+  // continuously new passwoed will be generated in an infine loop.setPassword should be saved in cache.
+  //useCallBack is not only responsible for runnig function but optimizing it if any changes occur in dependency.
+  //this app can be written without useCallback but we using it to optimize the function.
+
+  const passwordRef = useRef(null);
+
+  const copyPassToClip = useCallback(() => {
+    passwordRef.current?.select(); // select and highlights copied text to clipboard // Also current? signifies optional bcus value could be null.
+    // passwordRef.current?.setSelectionRange(0, 4); // for selecting values within given range.
+    // we can do password selection without using useRef but this is used to provide better functionality,like in this case
+    // when clicking on copy the text which is copied is highlighted. so useRef is used to access required object and perform
+    // additional operations.
+    window.navigator.clipboard.writeText(password); // here we can use window objetc bcus we are working in core react but we
+    // cannot do this in next js as nextjs uses server side rendering and their is no window.
+  }, [password]);
+
+  useEffect(() => {
+    passwordGenerator();
+  }, [length, hasChar, hasNum, passwordGenerator]); // here if any change occurs in dependeny run the function again.
+
+  return (
+    <>
+      <div className="w-full  max-w-md mx-auto shadow-md p-4 my-8 rounded-lg text-orange-400   bg-gray-500">
+        <h1 className="text-4xl text-center  text-white my-3">
+          Password Generator
+        </h1>
+
+        <div className="flex shadow rounded-lg overflow-hidden mb-4 my-2 bg-white">
+          <input
+            type="text"
+            value={password}
+            className=" outline-none w-full py-1 px-3"
+            placeholder="password"
+            readOnly
+            ref={passwordRef}
+          />
+          <button
+            onClick={copyPassToClip}
+            className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0"
+          >
+            copy
+          </button>
+        </div>
+        <div className="flex text-sm gap-x-2">
+          <div className="flex items-center gap-x-1">
+            <input
+              type="range"
+              min={6}
+              max={100}
+              value={length}
+              className="cursor-pointer text-black"
+              onChange={(e) => {
+                // direct method call nai krenge bcus event pass krna hai
+                setLength(e.target.value);
+              }}
+            />
+            <label> Length : {length}</label>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <input
+              type="checkbox"
+              defaultValue={hasNum}
+              id="numberInput"
+              onChange={() => {
+                setHasNum((prev) => !prev);
+              }}
+            />
+            <label htmlFor="numberInput"> Number</label>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <input
+              type="checkbox"
+              defaultValue={hasChar}
+              id="characterInput"
+              onChange={() => {
+                setHasChar((prev) => !prev); // here we cannot do setChar("true") ,
+                //  bcus it will remain true onwards whether we click or not
+              }}
+            />
+            <label htmlFor="characterInput"> Character</label>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+```
+
 
     
 
