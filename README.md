@@ -174,7 +174,32 @@ function App() {
   )
 
 -> example for different prices :    
-    
+
+## counter interview question : 
+
+function App()
+{
+  const [counter , setCounter ] = useState(15);
+
+  const addValue = () => {
+
+  setCounter(counter + 1); // changes will be made once. useState performs operation in batches so all below tasks will be sent in one bacth and all below setCounter will have counter value 15.
+  setCounter(counter + 1); // counter will be 16
+  setCounter(counter + 1); // counter will be 16
+
+  to actually make multiple changes together : 
+  
+   setCounter( ( prevCounter ) => prevCounter + 1 ) // setCounter method ek call back accept krta hai i.e prevCounter:  last updated state of counter . Also name can be anything "counter" even
+                                                    // Also we should not do ( (prevCounter) => {} ) bcus ifwe use curly braces we have to return a value. classic javascript
+   setCounter( ( prevCounter ) => prevCounter + 1 )
+    setCounter( ( prevCounter ) => prevCounter + 1 )
+
+  
+  }
+
+
+
+}    
 
     
 
