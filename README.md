@@ -190,6 +190,7 @@ function App()
   to actually make multiple changes together : 
   
    setCounter( ( prevCounter ) => prevCounter + 1 ) // setCounter method ek call back accept krta hai i.e prevCounter:  last updated state of counter . Also name can be anything "counter" even
+                                                   // ab operation batches me nai hoga, next method previous method ki changes staet accept karegi.
                                                     // Also we should not do ( (prevCounter) => {} ) bcus ifwe use curly braces we have to return a value. classic javascript
    setCounter( ( prevCounter ) => prevCounter + 1 )
     setCounter( ( prevCounter ) => prevCounter + 1 )
@@ -201,9 +202,17 @@ function App()
 
 }    
 
+
+** Note : onClick={() => setColor("red")} // onClick method ko poora function chahiye hota hai , return value nai . 
+         ** onClick method in react expects a function reference and parametres cannot be passed directly,INstead we need to pass it as a reference.
+         ** refreshing page resets the state to initial state.
+
     
+## React Hooks
 
-
+** useCallback : it lets us cache a function definition between re-renders. i.e function ko ya uske output ko cache memory me rkhna
+                 // aur nai changes ke saath nai output ko previos ke saath combine ya modify kr dena.
+ example : const cacheFn = useCallback(fn,dependencies)
 
 
     
