@@ -353,4 +353,14 @@ NavLink : is similar to Link but has some additional features.
     
    // Method 2 :
   -> create a root.jsx or(Layout.jsx) file in src folder
+
+# Custom hooks : 
+
+These are custom functions built by users.
+
+
+
+
+
+  
        
